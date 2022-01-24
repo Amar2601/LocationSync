@@ -1,17 +1,14 @@
 package com.example.firstapplication
 
 import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import androidx.core.app.ActivityCompat
 import android.app.job.JobInfo
-
-import android.content.ComponentName
-
 import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,14 +28,9 @@ class MainActivity : AppCompatActivity() {
             startLocationService()
         }
 
-
-
-
     }
 
     private fun startLocationService(){
-//        var serviceIntent= Intent(this@MainActivity,MyLocationService::class.java)
-//        startService(serviceIntent)
 
         val jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
         val jobInfo = JobInfo.Builder(123, ComponentName(this,MyLocationService::class.java))

@@ -75,7 +75,7 @@ class MyLocationService : JobService() {
                 Looper.getMainLooper()
             )
         }else{
-            Toast.makeText(this,"outside permission check",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Please allow location permission.",Toast.LENGTH_SHORT).show()
         }
         return true
     }
@@ -93,7 +93,7 @@ class MyLocationService : JobService() {
         }
     }
 
-    fun appendStringToFile(appendContents: String?, file: File?) {
+    private fun appendStringToFile(appendContents: String?, file: File?) {
         var result = false
         try {
                 if (file != null && file.canWrite()) {

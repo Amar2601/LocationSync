@@ -4,6 +4,9 @@
       <root url="file://$APPLICATION_HOME_DIR$/jre/Contents/Home/caches/transforms-3/0a117a36ab33f6b04c785737dfadc02f/transformed/jetified-play-services-basement-18.0.0/res" />
       <root url="file://$APPLICATION_HOME_DIR$/jre/Contents/Home/caches/transforms-3/0a117a36ab33f6b04c785737dfadc02f/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml" />
       <root url="jar://$APPLICATION_HOME_DIR$/jre/Contents/Home/caches/transforms-3/0a117a36ab33f6b04c785737dfadc02f/transformed/jetified-play-services-basement-18.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/0a117a36ab33f6b04c785737dfadc02f/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/0a117a36ab33f6b04c785737dfadc02f/transformed/jetified-play-services-basement-18.0.0/res" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-3/0a117a36ab33f6b04c785737dfadc02f/transformed/jetified-play-services-basement-18.0.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$APPLICATION_HOME_DIR$/jre/Contents/Home/caches/modules-2/files-2.1/com.google.android.gms/play-services-basement/18.0.0/36bdff1deaba5efcc76d7e68ea06b3c50af7bc0/play-services-basement-18.0.0-javadoc.jar!/" />

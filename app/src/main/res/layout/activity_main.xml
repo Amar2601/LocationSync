@@ -3,18 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#D6E4F3"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="50dp"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="#2BAAF6"
+        android:textAlignment="center"
+        android:text="WELCOME"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="wrap_content"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/Activebutton"
+        app:layout_constraintBottom_toTopOf="@id/CLEARBUTTON"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please allow location permission\nfor updating location on server."
+        android:text="ACTIVE"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rect_round_corner"
+        android:backgroundTint="#74C4F4"
+        android:layout_gravity="bottom"
+
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/CLEARBUTTON"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceSmall"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CLEAR APP"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rect_round_corner"
+        android:backgroundTint="#74C4F4"
+        android:layout_gravity="bottom"
+
+        app:layout_constraintStart_toStartOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

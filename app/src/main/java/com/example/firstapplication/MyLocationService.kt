@@ -11,10 +11,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Looper
+import android.telecom.TelecomManager.EXTRA_LOCATION
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.*
 import java.io.*
 import java.util.*
@@ -32,10 +34,11 @@ class MyLocationService : JobService() {
     override fun onStartJob(p0: JobParameters?): Boolean {
 
         locationRequest = LocationRequest.create()
-        locationRequest!!.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         stringBuilder = StringBuilder()
         val cal=Calendar.getInstance()
         writeFileOnInternalStorage(this@MyLocationService,"location.txt","\n${cal.time}--> job started.")
+
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
@@ -48,6 +51,8 @@ class MyLocationService : JobService() {
                         stringBuilder!!.append("-")
                         stringBuilder!!.append(wayLongitude)
                         stringBuilder!!.append("\n\n")
+
+
                         Toast.makeText(
                             this@MyLocationService,
                             "" + stringBuilder.toString(),
@@ -140,6 +145,14 @@ class MyLocationService : JobService() {
         }
 
 
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            return
+        }
         mNotificationManagerCompat.notify(NOTIFICATION_ID, builder.build())
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
+
 import com.example.firstapplication.databinding.ActivityLoginBinding
 
 
@@ -18,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         binding.LoginButton.setOnClickListener {
-            var intent = Intent(this,MainActivity::class.java)
+            var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
     }

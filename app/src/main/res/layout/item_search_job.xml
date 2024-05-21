@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:id="@+id/itemliner"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/rect_round_corner"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp">
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_launcher_background"
+        android:padding="3dp"/>
+
+    <TextView
+        android:id="@+id/jobTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:maxLines="2"
+        android:background="@null"
+        android:fontFamily="casual"
+        android:gravity="center_vertical"
+        android:paddingStart="10dp"
+        android:text="Gaurd Requirement,\nGurgaon"
+        android:textStyle="bold" />
+
+
+
+
+
+</LinearLayout>

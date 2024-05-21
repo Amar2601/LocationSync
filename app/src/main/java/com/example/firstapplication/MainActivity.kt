@@ -14,14 +14,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.firstapplication.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
+    private lateinit var viewModel: MainViewModel
     private val binding: ActivityMainBinding
         get() = _binding!!
 
@@ -65,6 +68,8 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel= ViewModelProvider(this)[MainViewModel::class.java]
+
         requestNotificationPermission(this)
 
         service = Intent(this, LocationService::class.java)
@@ -83,8 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-    fun checkPermissions() {
+    private fun checkPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             if (ActivityCompat.checkSelfPermission(
                     this,

@@ -4,11 +4,7 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-4/426f062337ba7ea2fb5f54988d03ec4d/transformed/jetified-rollbar-android-1.10.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-4/426f062337ba7ea2fb5f54988d03ec4d/transformed/jetified-rollbar-android-1.10.0/AndroidManifest.xml" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-android/1.10.0/1a3b0ba9fffebd285f98c6ad14bea5b427b68c19/rollbar-android-1.10.0-javadoc.jar!/" />
-    </JAVADOC>
-    <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-android/1.10.0/7163854ea572cba657286dce78f8359bd942bc1c/rollbar-android-1.10.0-sources.jar!/" />
-    </SOURCES>
+    <JAVADOC />
+    <SOURCES />
   </library>
 </component>

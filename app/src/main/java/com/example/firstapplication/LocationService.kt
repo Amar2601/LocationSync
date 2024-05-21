@@ -15,6 +15,9 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -77,6 +80,21 @@ class LocationService : Service() {
     private fun onNewLocation(newLocation: Location) {
         location = newLocation
         updateNotification()
+
+        val data = Data.Builder()
+            .putDouble("latitude", newLocation.latitude)
+            .putDouble("longitude", newLocation.longitude)
+            .build()
+
+        // Create a WorkRequest to send the location data to the API
+        val locationWorkRequest = OneTimeWorkRequestBuilder<LocationWorker>()
+            .setInputData(data)
+            .build()
+
+        // Enqueue the WorkRequest
+        WorkManager.getInstance(this@LocationService).enqueue(locationWorkRequest)
+
+
         val intent = Intent("com.example.firstapplication.NEW_LOCATION")
         intent.putExtra("latitude", newLocation.latitude)
         intent.putExtra("longitude", newLocation.longitude)

@@ -4,11 +4,7 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-java/1.10.0/73f99964fb1da956ad80209ea0f54471788d2a74/rollbar-java-1.10.0.jar!/" />
     </CLASSES>
-    <JAVADOC>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-java/1.10.0/2e7b41b897180301bc9129972cc5e54f0f161d58/rollbar-java-1.10.0-javadoc.jar!/" />
-    </JAVADOC>
-    <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rollbar/rollbar-java/1.10.0/bdd089b9c2e151a5b422a02c03bb5c3a6dc823c1/rollbar-java-1.10.0-sources.jar!/" />
-    </SOURCES>
+    <JAVADOC />
+    <SOURCES />
   </library>
 </component>

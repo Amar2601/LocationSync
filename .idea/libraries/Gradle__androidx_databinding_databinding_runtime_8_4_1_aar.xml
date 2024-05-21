@@ -6,8 +6,6 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-4/40623cf123fcffd93b7fa685f714083d/transformed/databinding-runtime-8.4.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.databinding/databinding-runtime/8.4.1/4ec515a3a4bc5760b5934938d90955c371b4b225/databinding-runtime-8.4.1-sources.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

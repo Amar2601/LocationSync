@@ -1,6 +1,7 @@
 package com.example.firstapplication
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineExceptionHandler
+import okhttp3.ResponseBody
 import retrofit2.Response
 import java.net.ConnectException
 import java.net.UnknownHostException
@@ -37,8 +38,8 @@ class Repository @Inject constructor(var apiServices: ApiServices) {
         }
     }
 
-    suspend fun getSkills(): Response<Root> {
-        return apiServices.getSkills()
+    suspend fun updateLocation(reqModel: Any): Response<ResponseBody> {
+        return apiServices.updatelocation(reqModel)
     }
 
 

@@ -3,21 +3,25 @@ package com.example.firstapplication
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.NotificationManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.firstapplication.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-
+import okhttp3.ResponseBody
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 @AndroidEntryPoint
@@ -25,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private lateinit var viewModel: MainViewModel
+    var locationResponse = MutableLiveData<NetworkResult<ResponseBody>>()
     private val binding: ActivityMainBinding
         get() = _binding!!
 
@@ -37,6 +42,20 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+
+
+    private val newLocationReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == "com.example.firstapplication.NEW_LOCATION") {
+                val latitude = intent.getDoubleExtra("latitude", 0.0)
+                val longitude = intent.getDoubleExtra("longitude", 0.0)
+
+                Toast.makeText(this@MainActivity,""+longitude.toString()+latitude.toString(),Toast.LENGTH_SHORT).show()
+
+
+            }
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     private val locationPermissions =
@@ -75,6 +94,10 @@ class MainActivity : AppCompatActivity() {
         service = Intent(this, LocationService::class.java)
 
                 checkPermissions()
+
+        val filter = IntentFilter("com.example.firstapplication.NEW_LOCATION")
+        registerReceiver(newLocationReceiver, filter)
+
 
     }
 
@@ -156,6 +179,7 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
 }
 
 

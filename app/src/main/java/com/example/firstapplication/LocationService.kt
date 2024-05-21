@@ -14,6 +14,7 @@ import android.location.Location
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -34,7 +35,6 @@ class LocationService : Service() {
     private var locationRequest: LocationRequest? = null
     private var notificationManager: NotificationManager? = null
     private var location: Location? = null
-
     override fun onCreate() {
         super.onCreate()
 
@@ -77,11 +77,16 @@ class LocationService : Service() {
     private fun onNewLocation(newLocation: Location) {
         location = newLocation
         updateNotification()
+        val intent = Intent("com.example.firstapplication.NEW_LOCATION")
+        intent.putExtra("latitude", newLocation.latitude)
+        intent.putExtra("longitude", newLocation.longitude)
+        sendBroadcast(intent)
     }
 
     private fun updateNotification() {
         val notification = getNotification()
         startForeground(NOTIFICATION_ID, notification)
+
     }
 
     private fun getNotification(): Notification {

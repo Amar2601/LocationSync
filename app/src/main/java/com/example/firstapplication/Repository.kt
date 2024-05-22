@@ -7,41 +7,12 @@ import java.net.ConnectException
 import java.net.UnknownHostException
 import javax.inject.Inject
 
-class Repository @Inject constructor(var apiServices: ApiServices) {
 
-    fun <T> getExceptionHandler(responseList: MutableLiveData<NetworkResult<T>>? = null): CoroutineExceptionHandler {
-        return CoroutineExceptionHandler { cctx, throwable ->
-            throwable.printStackTrace()
-            when (throwable) {
-                is UnknownHostException -> {
-                    responseList!!.postValue(NetworkResult.Error("No Internet connection found"))
-                }
+interface Repository {
 
-                is ConnectException -> {
-                    responseList!!.postValue(NetworkResult.Error("Connection failed, Please check internet connection and retry."))
-                }
+    fun <T> getExceptionHandler(responseList: MutableLiveData<NetworkResult<T>>? = null): CoroutineExceptionHandler
 
-                else -> {
-
-                    when {
-                        throwable.localizedMessage?.toString()!!.contains("end of input") -> {
-                            responseList!!.postValue(NetworkResult.Error("Server not reachable!!!"))
-                        }
-
-                        else -> {
-                            responseList!!.postValue(NetworkResult.Error(throwable.localizedMessage))
-                        }
-                    }
-
-                }
-            }
-        }
-    }
-
-    suspend fun updateLocation(reqModel: Any): Response<ResponseBody> {
-        return apiServices.updatelocation(reqModel)
-    }
-
+    suspend fun updateLocation(reqModel: Any): Response<ResponseBody>
 
 
 }

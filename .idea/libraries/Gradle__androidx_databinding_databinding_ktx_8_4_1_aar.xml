@@ -5,6 +5,8 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-4/ef2508a3150e905e9b0a2d1ca167489e/transformed/jetified-databinding-ktx-8.4.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.databinding/databinding-ktx/8.4.1/d100a82ef5047e51047bf15e33a78c872713529c/databinding-ktx-8.4.1-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

@@ -13,18 +13,25 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.IBinder
+
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.hilt.work.HiltWorker
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.scopes.ServiceScoped
 import java.util.Locale
 
+
+@ServiceScoped
 class LocationService : Service() {
 
     companion object {
@@ -43,7 +50,7 @@ class LocationService : Service() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest =
-            LocationRequest.create().setInterval(60000)
+            LocationRequest.create().setInterval(15000).setFastestInterval(5000)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
 
         locationCallback = object : LocationCallback() {
@@ -94,11 +101,6 @@ class LocationService : Service() {
         // Enqueue the WorkRequest
         WorkManager.getInstance(this@LocationService).enqueue(locationWorkRequest)
 
-
-        val intent = Intent("com.example.firstapplication.NEW_LOCATION")
-        intent.putExtra("latitude", newLocation.latitude)
-        intent.putExtra("longitude", newLocation.longitude)
-        sendBroadcast(intent)
     }
 
     private fun updateNotification() {

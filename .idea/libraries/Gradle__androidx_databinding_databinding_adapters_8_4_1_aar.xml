@@ -6,6 +6,8 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-4/a3891d36bcbfebf665edcf5f754f8fdd/transformed/databinding-adapters-8.4.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.databinding/databinding-adapters/8.4.1/920edf7fa5137b3d252672579469dfa753d9321f/databinding-adapters-8.4.1-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

@@ -1,5 +1,7 @@
 package com.example.firstapplication
 
+import android.R.attr.phoneNumber
+import android.R.id.message
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.Notification
@@ -13,20 +15,15 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.IBinder
-
 import androidx.core.app.NotificationCompat
-import androidx.hilt.work.HiltWorker
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.scopes.ServiceScoped
 import java.util.Locale
 
@@ -88,9 +85,12 @@ class LocationService : Service() {
         location = newLocation
         updateNotification()
 
+        var addess= getAddressFromLocation(newLocation.latitude,newLocation.longitude)
+
         val data = Data.Builder()
             .putDouble("latitude", newLocation.latitude)
             .putDouble("longitude", newLocation.longitude)
+            .putString("Address",addess)
             .build()
 
         // Create a WorkRequest to send the location data to the API
@@ -98,8 +98,15 @@ class LocationService : Service() {
             .setInputData(data)
             .build()
 
+
+
         // Enqueue the WorkRequest
         WorkManager.getInstance(this@LocationService).enqueue(locationWorkRequest)
+
+        val intent = Intent("com.example.firstapplication.NEW_LOCATION")
+        intent.putExtra("latitude", newLocation.latitude)
+        intent.putExtra("longitude", newLocation.longitude)
+        sendBroadcast(intent)
 
     }
 

@@ -28,6 +28,7 @@ class LocationWorker(
     override suspend fun doWork(): Result {
         val latitude = inputData.getDouble("latitude", 0.0).toString()
         val longitude = inputData.getDouble("longitude", 0.0).toString()
+        var address = inputData.getString("Address")
 
         Log.e("Latitude",latitude)
         Log.e("Longitude",longitude)
@@ -51,7 +52,7 @@ class LocationWorker(
 
         return withContext(Dispatchers.IO) {
 
-            val response = repository.updateLocation(LocationData("1",latitude, longitude))
+            val response = repository.updateLocation(LocationData("1",latitude, longitude,address))
             if (response.isSuccessful) {
                 Log.d("LocationApi", "Location update successful")
                 Result.success()

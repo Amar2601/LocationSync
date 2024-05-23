@@ -43,18 +43,20 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-//    private val newLocationReceiver = object : BroadcastReceiver() {
-//        override fun onReceive(context: Context?, intent: Intent?) {
-//            if (intent?.action == "com.example.firstapplication.NEW_LOCATION") {
-//                val latitude = intent.getDoubleExtra("latitude", 0.0)
-//                val longitude = intent.getDoubleExtra("longitude", 0.0)
-//
-//                Toast.makeText(this@MainActivity,""+longitude.toString()+latitude.toString(),Toast.LENGTH_SHORT).show()
-//
-//
-//            }
-//        }
-//    }
+    private val newLocationReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == "com.example.firstapplication.NEW_LOCATION") {
+                val latitude = intent.getDoubleExtra("latitude", 0.0)
+                val longitude = intent.getDoubleExtra("longitude", 0.0)
+
+
+                binding.latitude.text=  "Latitude $latitude"
+                binding.longitude.text=  "Lontitude $longitude"
+
+
+            }
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     private val locationPermissions =
@@ -94,8 +96,8 @@ class MainActivity : AppCompatActivity() {
 
                 checkPermissions()
 
-//        val filter = IntentFilter("com.example.firstapplication.NEW_LOCATION")
-//        registerReceiver(newLocationReceiver, filter)
+        val filter = IntentFilter("com.example.firstapplication.NEW_LOCATION")
+        registerReceiver(newLocationReceiver, filter)
 
 
     }

@@ -12,7 +12,9 @@ interface Repository {
 
     fun <T> getExceptionHandler(responseList: MutableLiveData<NetworkResult<T>>? = null): CoroutineExceptionHandler
 
-    suspend fun updateLocation(reqModel: Any): Response<ResponseBody>
+    suspend fun updateLocation(token: String,reqModel: Any): Response<ResponseBody>
+
+    suspend fun driverLogin(token:String,reqModel: Any) : Response<LoginResponse>
 
 
 }

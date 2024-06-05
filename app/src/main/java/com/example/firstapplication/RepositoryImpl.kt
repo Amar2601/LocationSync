@@ -40,10 +40,13 @@ class RepositoryImpl @Inject constructor(var apiServices: ApiServices)
         }
     }
 
-    override suspend fun updateLocation(reqModel: Any): Response<ResponseBody> {
-        return apiServices.updatelocation(reqModel)
+    override suspend fun updateLocation(token:String,reqModel: Any): Response<ResponseBody> {
+        return apiServices.updatelocation(token,reqModel)
     }
 
+    override suspend fun driverLogin(token:String ,reqModel: Any): Response<LoginResponse> {
+        return apiServices.driverLogin(token,reqModel)
+    }
 
 
 }

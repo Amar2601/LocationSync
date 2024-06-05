@@ -2,19 +2,26 @@ package com.example.firstapplication
 
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
+import android.view.LayoutInflater
 
 import android.view.View
+import android.view.Window
 
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import com.example.firstapplication.databinding.CustomProgressLayoutBinding
 
 import com.google.android.material.snackbar.Snackbar
 
@@ -65,6 +72,34 @@ internal fun Fragment.showSnackBar(view: View, message: String) {
 
 internal fun Context.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun Context.getProgressDialog(): Dialog {
+    val dialog = Dialog(this)
+    val binding = CustomProgressLayoutBinding.inflate(LayoutInflater.from(this))
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.window?.setLayout(
+        ActionBar.LayoutParams.MATCH_PARENT,
+        ActionBar.LayoutParams.MATCH_PARENT
+    )
+    dialog.setCancelable(false)
+    dialog.setContentView(binding.root)
+
+    return dialog
+}
+
+fun Context.putPrefeb(key: String, value: String) {
+    val preferences = getSharedPreferences("amar_${packageName}", Context.MODE_PRIVATE)
+    val editor = preferences.edit()
+    editor.putString(key, value)
+    editor.apply()
+}
+
+fun Context.getPrefeb(key: String): String {
+    val preferences = getSharedPreferences("amar_${packageName}", Context.MODE_PRIVATE)
+    val prefebValue = preferences.getString(key, "")!!
+    return prefebValue
 }
 
 fun isOnline(context: Context): Boolean {

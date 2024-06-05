@@ -23,11 +23,21 @@ class LocationWorker(
    workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 
-    lateinit var repository: Repository
+    private lateinit var repository: Repository
+
 
     override suspend fun doWork(): Result {
         val latitude = inputData.getDouble("latitude", 0.0).toString()
         val longitude = inputData.getDouble("longitude", 0.0).toString()
+        var address = inputData.getString("Address")
+
+        val driverid = inputData.getInt("driverid",0)
+        val schoolid = inputData.getInt("schoolid", 0)
+        var drivertoken = inputData.getString("drivertoken")
+
+
+
+
 
         Log.e("Latitude",latitude)
         Log.e("Longitude",longitude)
@@ -39,19 +49,20 @@ class LocationWorker(
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
 
-        var retrofitClient = Retrofit.Builder()
+        val retrofitClient = Retrofit.Builder()
             .baseUrl(ApiServices.BASE_URL)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        var apiServices= retrofitClient.create(ApiServices::class.java)
+        val apiServices= retrofitClient.create(ApiServices::class.java)
 
         repository = RepositoryImpl(apiServices)
 
         return withContext(Dispatchers.IO) {
 
-            val response = repository.updateLocation(LocationData("1",latitude, longitude))
+            val response = repository.
+            updateLocation(AppConst.API_TOKEN+drivertoken,LocationData(driverid,latitude, longitude,address,schoolid))
             if (response.isSuccessful) {
                 Log.d("LocationApi", "Location update successful")
                 Result.success()

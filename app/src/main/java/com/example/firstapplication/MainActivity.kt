@@ -4,8 +4,10 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.NotificationManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -37,6 +39,25 @@ class MainActivity : AppCompatActivity() {
     lateinit var backgroundLocation:ActivityResultLauncher<String>
 
 
+    private val newLocationReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == "com.example.firstapplication.NEW_LOCATION") {
+                val latitude = intent.getDoubleExtra("latitude", 0.0)
+                val longitude = intent.getDoubleExtra("longitude", 0.0)
+
+               this@MainActivity.putPrefeb("Latitude",latitude.toString())
+                this@MainActivity.putPrefeb("Lontitude",longitude.toString())
+
+                binding.latitude.text=  "Latitude : $latitude"
+                binding.longitude.text=  "Lontitude : $longitude"
+
+
+            }
+        }
+    }
+
+
+
     @RequiresApi(Build.VERSION_CODES.N)
     private val locationPermissions =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -60,8 +81,23 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        var latitude=this.getPrefeb("Latitude")
+        var lotitude=this.getPrefeb("Lontitude")
+
+        if (lotitude.isNotEmpty() && latitude.isNotEmpty())
+        {
+            binding.latitude.text=  "Latitude : $latitude"
+            binding.longitude.text=  "Lontitude : $lotitude"
+        }
+
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         service = Intent(this, LocationService::class.java)
+
+
+
+        val filter = IntentFilter("com.example.firstapplication.NEW_LOCATION")
+        registerReceiver(newLocationReceiver, filter)
 
         checkInternetConnection()
 

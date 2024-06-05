@@ -16,20 +16,8 @@ class MainViewModel @Inject constructor(
 
 )  : ViewModel(){
 
-    var locationResponse = MutableLiveData<NetworkResult<ResponseBody>>()
 
-    data class requestbody(
-        @SerializedName("user_id" ) var userId : String? = null,
-        @SerializedName("lat"     ) var lat    : String? = null,
 
-        @SerializedName("long"    ) var long   : String? = null
-    )
-    fun updateLocation(userId: String?,lat: String?,long: String?){
-        viewModelScope.launch(Dispatchers.IO+ repository.getExceptionHandler(locationResponse)) {
-            locationResponse.postValue(NetworkResult.Loading())
-            var requestbody=requestbody(userId,lat,long)
-            val response = repository.updateLocation(requestbody)
-            handleResponse(response,locationResponse)
-        }
-    }
+
+
 }

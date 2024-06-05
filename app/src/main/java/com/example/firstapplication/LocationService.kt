@@ -13,6 +13,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.IBinder
+import android.widget.Toast
 
 import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
@@ -88,9 +89,19 @@ class LocationService : Service() {
         location = newLocation
         updateNotification()
 
+        var addess= getAddressFromLocation(newLocation.latitude,newLocation.longitude)
+
+          var drivertoken= this@LocationService.getPrefeb("drivertoken")
+          var driverid= this@LocationService.getPrefeb("driverid")
+          var schoolid= this@LocationService.getPrefeb("schoolid")
+
         val data = Data.Builder()
             .putDouble("latitude", newLocation.latitude)
             .putDouble("longitude", newLocation.longitude)
+            .putString("Address",addess)
+            .putInt("driverid",driverid.toInt())
+            .putInt("schoolid",schoolid.toInt())
+            .putString("drivertoken",drivertoken)
             .build()
 
         // Create a WorkRequest to send the location data to the API
@@ -100,6 +111,12 @@ class LocationService : Service() {
 
         // Enqueue the WorkRequest
         WorkManager.getInstance(this@LocationService).enqueue(locationWorkRequest)
+
+
+        val intent = Intent("com.example.firstapplication.NEW_LOCATION")
+        intent.putExtra("latitude", newLocation.latitude)
+        intent.putExtra("longitude", newLocation.longitude)
+        sendBroadcast(intent)
 
     }
 
@@ -119,7 +136,7 @@ class LocationService : Service() {
             this,
             0,
             Intent(),
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         return NotificationCompat.Builder(this, CHANNEL_ID)

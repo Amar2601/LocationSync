@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,9 +36,11 @@ class MainActivity : AppCompatActivity() {
         get() = _binding!!
 
     private var service: Intent? = null
+    var buttonclick=false
 
-    lateinit var backgroundLocation:ActivityResultLauncher<String>
+    private var backgroundlocationPermission = false
 
+    private lateinit var backgroundLocation: ActivityResultLauncher<String>
 
     private val newLocationReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -45,18 +48,14 @@ class MainActivity : AppCompatActivity() {
                 val latitude = intent.getDoubleExtra("latitude", 0.0)
                 val longitude = intent.getDoubleExtra("longitude", 0.0)
 
-               this@MainActivity.putPrefeb("Latitude",latitude.toString())
-                this@MainActivity.putPrefeb("Lontitude",longitude.toString())
+                this@MainActivity.putPrefeb("Latitude", latitude.toString())
+                this@MainActivity.putPrefeb("Lontitude", longitude.toString())
 
-                binding.latitude.text=  "Latitude : $latitude"
-                binding.longitude.text=  "Lontitude : $longitude"
-
-
+                binding.latitude.text = "Latitude : $latitude"
+                binding.longitude.text = "Lontitude : $longitude"
             }
         }
     }
-
-
 
     @RequiresApi(Build.VERSION_CODES.N)
     private val locationPermissions =
@@ -69,7 +68,8 @@ class MainActivity : AppCompatActivity() {
                     checkBackgroundLocationPermission()
                 }
                 else -> {
-                    Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show()
+
+                    showPermissionDeniedDialog()
                 }
             }
         }
@@ -81,44 +81,74 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var latitude = this.getPrefeb("Latitude")
+        var lotitude = this.getPrefeb("Lontitude")
 
-        var latitude=this.getPrefeb("Latitude")
-        var lotitude=this.getPrefeb("Lontitude")
-
-        if (lotitude.isNotEmpty() && latitude.isNotEmpty())
-        {
-            binding.latitude.text=  "Latitude : $latitude"
-            binding.longitude.text=  "Lontitude : $lotitude"
+        if (lotitude.isNotEmpty() && latitude.isNotEmpty()) {
+            binding.latitude.visibility = View.VISIBLE
+            binding.longitude.visibility = View.VISIBLE
+            binding.latitude.text = "Latitude : $latitude"
+            binding.longitude.text = "Lontitude : $lotitude"
         }
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         service = Intent(this, LocationService::class.java)
 
+        backgroundLocation =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+                backgroundlocationPermission = granted
+            }
 
+        binding.logout.setOnClickListener {
+            buttonclick=false
+            val preferences = this
+                .getSharedPreferences("amar_${this?.packageName}", Context.MODE_PRIVATE)
+            var editor = preferences.edit()
+            editor.clear()
+            editor.apply()
+
+            stopService(service)
+
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         val filter = IntentFilter("com.example.firstapplication.NEW_LOCATION")
         registerReceiver(newLocationReceiver, filter)
 
-        checkInternetConnection()
+        binding.Activebutton.setOnClickListener {
+            buttonclick=true
+            binding.latitude.visibility = View.VISIBLE
+            binding.longitude.visibility = View.VISIBLE
 
-         backgroundLocation =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-                if (granted) {
+            checkInternetConnection()
 
-                    if(isServiceRunning(this,LocationService::class.java))
-                    {
-
-                        Log.e("ServiceisAlreadyRunning","Service is Already Running")
-                    }
-                    else
-                    {
-                        startService(service)
-                    }
-
-                }
+            if (backgroundlocationPermission) {
+                startLocationService()
+            } else {
+                checkPermissions()
             }
+        }
 
+        binding.CLEARBUTTON.setOnClickListener {
+            buttonclick=false
+            binding.latitude.visibility = View.GONE
+            binding.longitude.visibility = View.GONE
 
+            stopService(service)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (buttonclick)
+        {
+            if (backgroundlocationPermission)
+            {
+                startLocationService()
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -138,7 +168,6 @@ class MainActivity : AppCompatActivity() {
     fun checkInternetConnection() {
         if (isOnline(this)) {
             requestNotificationPermission()
-            checkPermissions()
         } else {
             showAlertDialogBox()
         }
@@ -206,15 +235,7 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         } else {
-            if(isServiceRunning(this,LocationService::class.java))
-            {
-
-                Log.e("ServiceisAlreadyRunning","Service is Already Running")
-            }
-            else
-            {
-                startService(service)
-            }
+            checkBackgroundLocationPermission()
         }
     }
 
@@ -227,26 +248,38 @@ class MainActivity : AppCompatActivity() {
             ) {
                 backgroundLocation.launch(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
             } else {
-                if(isServiceRunning(this,LocationService::class.java))
-                {
-
-                    Log.e("ServiceisAlreadyRunning","Service is Already Running")
-                }
-                else
-                {
-                    startService(service)
-                }
+                backgroundlocationPermission = true
+                startLocationService()
             }
         } else {
-            if(isServiceRunning(this,LocationService::class.java))
-            {
-
-                Log.e("ServiceisAlreadyRunning","Service is Already Running")
-            }
-            else
-            {
-                startService(service)
-            }
+            backgroundlocationPermission = true
+            startLocationService()
         }
+    }
+
+    private fun startLocationService() {
+        if (!isServiceRunning(this, LocationService::class.java)) {
+            startService(service)
+        } else {
+            Log.e("ServiceisAlreadyRunning", "Service is Already Running")
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun showPermissionDeniedDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Location Permission Required")
+            .setMessage("This app needs location permission to provide the required functionality. Please grant the permission.")
+            .setPositiveButton("Grant") { dialog, _ ->
+                checkPermissions()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+                Toast.makeText(this,"Location Permission Decline",Toast.LENGTH_SHORT).show()
+            }
+            .setCancelable(false)
+            .create()
+            .show()
     }
 }

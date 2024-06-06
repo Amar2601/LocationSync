@@ -51,7 +51,7 @@ class LocationService : Service() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationRequest =
-            LocationRequest.create().setInterval(15000).setFastestInterval(5000)
+            LocationRequest.create().setInterval(30000).setFastestInterval(5000)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
 
         locationCallback = object : LocationCallback() {

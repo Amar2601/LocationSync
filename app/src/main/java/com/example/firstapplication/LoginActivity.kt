@@ -2,19 +2,10 @@ package com.example.firstapplication
 
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-
 import com.example.firstapplication.databinding.ActivityLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -75,7 +66,6 @@ class LoginActivity : AppCompatActivity() {
                     progressDialog?.dismiss()
 
                     var response= it.data
-
                     var drivertoken=response?.token
                     var driverid=response?.data?.id
                     var schoolid=response?.data?.schoolId
@@ -92,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
 
                 is NetworkResult.Error -> {
 
-                    progressDialog?.show()
+                    progressDialog?.dismiss()
 
                     Toast.makeText(this,"Error",Toast.LENGTH_LONG).show()
                 }

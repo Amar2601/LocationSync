@@ -27,24 +27,21 @@ class LocationWorker(
 
 
     override suspend fun doWork(): Result {
-        val latitude = inputData.getDouble("latitude", 0.0).toString()
-        val longitude = inputData.getDouble("longitude", 0.0).toString()
-        var address = inputData.getString("Address")
+        val latitude = inputData.getDouble("latitude", 0.0)
+        val longitude = inputData.getDouble("longitude", 0.0)
+        val address = inputData.getString("Address")
 
         val driverid = inputData.getInt("driverid",0)
         val schoolid = inputData.getInt("schoolid", 0)
-        var drivertoken = inputData.getString("drivertoken")
+        val drivertoken = inputData.getString("drivertoken")
 
 
-
-
-
-        Log.e("Latitude",latitude)
-        Log.e("Longitude",longitude)
+        Log.e("Latitude",latitude.toString())
+        Log.e("Longitude",longitude.toString())
 
         Log.d("LocationWorker", "Received Latitude: $latitude, Longitude: $longitude")
 
-        var httpClient = OkHttpClient.Builder()
+        val httpClient = OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .build()

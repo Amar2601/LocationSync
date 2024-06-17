@@ -14,6 +14,7 @@ import android.location.Location
 import android.os.Build
 import android.os.IBinder
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 
 import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
@@ -119,6 +120,7 @@ class LocationService : Service() {
         sendBroadcast(intent)
 
     }
+
 
     private fun updateNotification() {
         val notification = getNotification()
